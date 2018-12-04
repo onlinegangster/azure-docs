@@ -1,0 +1,88 @@
+#!/bin/bash
+
+## https://istio.io/docs/setup/kubernetes/platform-setup/azure/
+
+# regions which support istio
+az provider list --query "[?namespace=='Microsoft.ContainerService'].resourceTypes[] | [?resourceType=='managedClusters'].locations[]" -o tsv
+
+# verify supported kubernetes versions
+az aks get-versions --location westeurope --query "orchestrators[].orchestratorVersion"
+
+# create kubernetes cluster inside resource group
+VERSION=1.10.9
+# VERSION must exist!!
+
+# FREE plan does not support more then 2 nodes, 3 is preferred minimum
+NODES=1
+az aks create --resource-group myResourceGroup --name myAKSCluster --node-count 1 --kubernetes-version $VERSION --generate-ssh-keys
+
+# get AKS credentials
+az aks get-credentials --resource-group myResourceGroup --name myAKSCluster
+
+# check context of kubectl (should be myAKSCluster)
+kubectl config current-context
+# fix if not right context
+kubectl config use-context myAKSCluster
+
+# install helm onto cluster, needs to be secured
+helm init
+
+# https://istio.io/docs/setup/kubernetes/quick-start/
+# curl -L https://git.io/getLatestIstio | sh -
+# istio demo install
+# kubectl apply -f install/kubernetes/istio-demo.yaml
+
+# remove istio
+kubectl get customresourcedefinition  -n istio-system | grep 'istio'|awk '{print $1}'|xargs kubectl delete customresourcedefinition  -n istio-system
+
+# setting the proper keystore for verifying the certificates of the cluster
+kubectl config set-cluster myAKSCluster --insecure-skip-tls-verify=true
+
+# chekcing current version of kubernetes running
+kubectl version --short
+
+## istio
+
+# check services in istio
+kubectl -n istio-system get services | awk '{ print $1 }'
+kubectl -n istio-system get svc grafana
+kubectl -n istio-system get svc prometheus
+
+## istio is now running, start the sample application
+# https://istio.io/docs/examples/bookinfo/
+
+# create namespace
+kubectl label namespace default istio-injection=enabled
+
+# start sample application
+kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
+
+# confirm services
+kubectl get services
+
+# confirm pods
+kubectl get pods
+
+# create a gateway to access service from outside
+kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
+
+# confirm gateway
+kubectl get gateway
+
+# set ingress/egress
+export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
+export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
+
+
+# inspect prometheus on localhost:9091
+kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9091 &
+
+
+# check running sidecarts
+kubectl -n istio-system get pod -listio=sidecar-injector
+
+# endpoints for sidecarts
+kubectl -n istio-system get endpoints istio-sidecar-injector
+
+

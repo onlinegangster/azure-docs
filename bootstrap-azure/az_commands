@@ -1,0 +1,50 @@
+22634  az login --use-device-code
+22639  az group
+22640  az group show
+22641  az group show --query *
+22642  az find -q secret
+22644  find . -name 'az.completion'
+22649  cd azure-webapp
+22650  mkdir azure-webapp
+22651  cd azure-webapp/
+22652  az webapp deployment user set --user-name deploy-user --password 8dXeTUAgyUTJd9uS
+22654  az webapp deployment user set --user-name deploy-user --password 8dXeTUAgyUTJd9uS
+22655  az webapp deployment user set --user-name deploy-user-of-sudesh --password 8dXeTUAgyUTJd9uS
+22656  az appservice --help
+22657  az appservice plan --help
+22658  az appservice plan list
+22659  az appservice plan show
+22660  az appservice plan list
+22661  az appservice list-locations --sku free
+22662  az appservice list-locations --sku free --linux-workers-enabled
+22663  az group create --name myResourceGroup --location "West Europe"
+22664  az appservice plan create --name myAppServicePlan --resource-group myResourceGroup --sku FREE --is-linux
+22665  az appservice plan create --name myAppServicePlan --resource-group myResourceGroup --sku B1 --is-linux
+22666  az --help
+22667  az confrigure
+22668  az configure
+22670  az appservice plan create --name myAppServicePlan --resource-group myResourceGroup --sku B1 --is-linux
+22679  cd ../azure-webapp/
+22691  cd ../azure-webapp/
+22718  az webapp create --resource-group myResourceGroup --plan myAppServicePlan --name prometheusApp --deployment-container-image-name docker.io/prom/prometheus
+22719  az group delete --name myResourceGroup
+
+
+# create a container registry
+# https://docs.microsoft.com/en-us/azure/container-registry/container-registry-get-started-azure-cli
+
+# registering AKS (Azure Kubernetes Service) with ACR (Azure Container Registry)
+
+export AKS_RESOURCE_GROUP=myResourceGroup
+export AKS_CLUSTER_NAME=myAKSCluster
+export ACR_RESOURCE_GROUP=$AKS_RESOURCE_GROUP
+export ACR_NAME=sudeshContainerRegistry
+
+# Get the id of the service principal configured for AKS
+CLIENT_ID=$(az aks show --resource-group $AKS_RESOURCE_GROUP --name $AKS_CLUSTER_NAME --query "servicePrincipalProfile.clientId" --output tsv)
+
+# Get the ACR registry resource id
+ACR_ID=$(az acr show --name $ACR_NAME --resource-group $ACR_RESOURCE_GROUP --query "id" --output tsv)
+
+# Create role assignment
+az role assignment create --assignee $CLIENT_ID --role Reader --scope $ACR_ID
