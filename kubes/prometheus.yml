@@ -1,16 +1,16 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: prometheus-hello
+  name: prometheus
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: prometheus-hello
+        app: prometheus
     spec:
       containers:
       - name: prometheus
         image: sudeshcontainerregistry.azurecr.io/prometheus-hello:v1
         ports:
-          - containerPort: 9001
+          - containerPort: 9090

@@ -19,13 +19,9 @@
 22662  az appservice list-locations --sku free --linux-workers-enabled
 22663  az group create --name myResourceGroup --location "West Europe"
 22664  az appservice plan create --name myAppServicePlan --resource-group myResourceGroup --sku FREE --is-linux
-22665  az appservice plan create --name myAppServicePlan --resource-group myResourceGroup --sku B1 --is-linux
 22666  az --help
-22667  az confrigure
 22668  az configure
 22670  az appservice plan create --name myAppServicePlan --resource-group myResourceGroup --sku B1 --is-linux
-22679  cd ../azure-webapp/
-22691  cd ../azure-webapp/
 22718  az webapp create --resource-group myResourceGroup --plan myAppServicePlan --name prometheusApp --deployment-container-image-name docker.io/prom/prometheus
 22719  az group delete --name myResourceGroup
 

@@ -12,9 +12,25 @@ In Azure we can distinct 3 generic types of storage which can be subdivided base
 
 
 ## (Un)structured data
+Various types of databases are offered on Azure:
+https://azure.microsoft.com/en-us/product-categories/databases/
 
-Microsoft's generic offering for (un)structured data is called "[Azure Cosmos DB](https://azure.microsoft.com/en-us/services/cosmos-db/)".
+* Traditional MySQL/MariaDB/Postgres/MSSQL
+* BI SQL Datawarehouse
+* NoSQL ...
 
+Microsoft also offers a large scale distributed (un)structured store **Cosmos DB**
+
+
+## Distributed data (Cosmos DB)
+Microsoft's generic offering for distributed (un)structured data is called "[Azure Cosmos DB](https://azure.microsoft.com/en-us/services/cosmos-db/)".
+
+### Interfaces
+
+* SQL
+* Mongo API(document)
+* Cassandra API(key/value,column)
+* Gremlin API(graph)
 
 ### SLA's
 
@@ -31,3 +47,4 @@ Highlights:
 | Resource Operations                           | 5 Sec                                     |
 | Media Operations                              | 60 Sec                                    |
 
+*
