@@ -7,9 +7,7 @@
 22649  cd azure-webapp
 22650  mkdir azure-webapp
 22651  cd azure-webapp/
-22652  az webapp deployment user set --user-name deploy-user --password 8dXeTUAgyUTJd9uS
-22654  az webapp deployment user set --user-name deploy-user --password 8dXeTUAgyUTJd9uS
-22655  az webapp deployment user set --user-name deploy-user-of-sudesh --password 8dXeTUAgyUTJd9uS
+22655  az webapp deployment user set --user-name deploy-user-of-sudesh --password
 22656  az appservice --help
 22657  az appservice plan --help
 22658  az appservice plan list
