@@ -37,3 +37,16 @@ for pod in $(kubectl -n istio-system get pod -listio=sidecar-injector -o jsonpat
     kubectl -n istio-system logs ${pod} \
 done
 ```
+
+### Ingress Host
+export INGRESS_HOST=$(kubectl -n istio-system get service i
+stio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+
+### Ingress Port
+export INGRESS_PORT=$(kubectl -n istio-system get service i
+stio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
+
+# External IP (Azure)
+http://$INGRESS_HOST/productpage#
+
+
