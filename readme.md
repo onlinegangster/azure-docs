@@ -71,4 +71,51 @@ az role assignment create --assignee $CLIENT_ID --role Reader --scope $ACR_ID
 3. Deploy your image
 
 `kubectl apply -f kubes/prometheus.yml`
-[prometheus.yml](kubes/prometheus.yml)
+
+[kubes/prometheus.yml](kubes/prometheus.yml)
+
+4. Check it
+
+```bash
+kubectl get deployments
+kubectl get pods
+kubectl get services
+```
+
+# Installing ISTIO in your AKS Cluster
+
+## Install ISTIO
+First download istio on your laptop and add it to your PATH \
+[Istio Docs](https://istio.io/docs/setup/kubernetes/download-release/)
+
+Then install using [helm and tiller](https://istio.io/docs/setup/kubernetes/helm-install/) by running the following commands
+
+```
+cd ~/git/istio
+kubectl apply -f install/kubernetes/helm/helm-service-account.yaml
+helm init --service-account tiller
+helm install install/kubernetes/helm/istio --name istio --namespace istio-system
+```
+
+## Install the ISTIO demo app
+
+[istio bookinfo application](https://istio.io/docs/examples/bookinfo/)
+
+1. Enable automatic sidecar injection in the **default** namespace
+
+`kubectl label namespace default istio-injection=enabled`
+
+2. Deploy the services
+
+`kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml`
+
+3. Enable access to the services by creating a gateway
+
+`kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml`
+
+4. Cofirm that services and gateway are running
+
+```
+kubectl get services
+kubectl get gateway
+```
