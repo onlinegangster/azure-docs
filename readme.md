@@ -113,9 +113,44 @@ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
 
 `kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml`
 
-4. Cofirm that services and gateway are running
+4. Confirm that services and gateway are running
 
 ```
 kubectl get services
 kubectl get gateway
 ```
+
+## Install and run monitoring (Prometheus)
+
+[istio-metric-and-logs](https://istio.io/docs/tasks/telemetry/metrics-logs/)
+
+1. Enable metric collection
+
+`kubectl apply -f new_telemetry.yml`
+[new_telemetry.yml](kubes/new_telemetry.yml)
+
+2. Open dashboard (prometheus)
+
+`kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &`
+
+Now you can find your metrics at http://localhost:9090
+
+## Install and run logging (Fluentd/Elasticsearch/Kibana)
+
+## Install and run distributed tracing (Jaeger/...)
+
+[istio-distributed-tracing](https://istio.io/docs/tasks/telemetry/distributed-tracing/)
+
+```
+# install tracing config for demo
+kubectl apply -f install/kubernetes/istio-demo.yaml
+# start jaeger proxy
+kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686 &
+```
+
+You should now be able to access the jaeger dashboard at http://localhost:16686
+
+
+
+## Routing
+
