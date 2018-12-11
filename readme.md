@@ -82,9 +82,9 @@ kubectl get pods
 kubectl get services
 ```
 
-# Installing ISTIO in your AKS Cluster
-
-## Install ISTIO
+<details><summary># Installing ISTIO in your AKS Cluster</summary>
+<p>
+1. Install ISTIO
 First download istio on your laptop and add it to your PATH \
 [Istio Docs](https://istio.io/docs/setup/kubernetes/download-release/)
 
@@ -96,6 +96,8 @@ kubectl apply -f install/kubernetes/helm/helm-service-account.yaml
 helm init --service-account tiller
 helm install install/kubernetes/helm/istio --name istio --namespace istio-system
 ```
+</p>
+</details>
 
 ## Install the ISTIO demo app
 
