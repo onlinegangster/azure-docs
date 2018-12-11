@@ -144,12 +144,10 @@ kubectl get gateway
 
 ## Install and run monitoring (Prometheus)
 <details><summary>Expand</summary>
-  <p>
-
+<p>
 1. Enable metric collection
 
-```kubectl apply -f new_telemetry.yml```
-
+`kubectl apply -f new_telemetry.yml` \
 [new_telemetry.yml](kubes/new_telemetry.yml)
 
 2. Open dashboard (prometheus)
