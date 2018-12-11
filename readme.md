@@ -1,7 +1,8 @@
 # The Azure Docs
 A quickstart for running applications on top of the Azure public cloud
 
-<details><summary>1. Setting up a new cluster in Azure</summary>
+<details><summary>
+## Setting up a new cluster in Azure</summary>
   <p>
 0. Define your variables (in ~/.bashrc?)
 
@@ -26,9 +27,10 @@ az aks get-credentials --resource-group myResourceGroup --name myAKSCluster
 </p>
 </details>
 
-<details><summary>Setting up an Azure Container Registry</summary>
+<details><summary>
+## Setting up an Azure Container Registry</summary>
   <p>
-  
+
 3. Create an **Azure Container Registry (acr)** (name should be unique)
 
 `az acr create --resource-group myResourceGroup --name $ACR_NAME --sku Basic`
@@ -171,7 +173,7 @@ You should now be able to access the jaeger dashboard at http://localhost:16686
 
 <details><summary>Routing</summary>
   <p>ToDo
-    
-    
+
+
   </p>
   </details>
