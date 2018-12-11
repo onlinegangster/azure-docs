@@ -1,7 +1,4 @@
 #!/bin/bash
-
-#!/bin/bash
-
 ACR_NAME=sudeshContainerRegistry
 SERVICE_PRINCIPAL_NAME=acr-service-principal
 

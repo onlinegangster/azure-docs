@@ -49,4 +49,17 @@ stio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
 # External IP (Azure)
 http://$INGRESS_HOST/productpage#
 
+# Fault Injection
+https://istio.io/docs/concepts/traffic-management/
 
+
+# Dashboards
+```
+# logging/kibana
+kubectl apply -f fluentd-istio.yml
+kubectl -n logging port-forward $(kubectl -n logging get pod -l app=kibana -o jsonpath='{.items[0].metadata.name}') 5601:5601 &
+
+# jaeger
+kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686 &
+
+```
