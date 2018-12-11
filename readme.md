@@ -146,18 +146,20 @@ kubectl get gateway
 <details><summary>Expand</summary>
   <p>
 
-[istio-metric-and-logs](https://istio.io/docs/tasks/telemetry/metrics-logs/)
-
 1. Enable metric collection
 
-`kubectl apply -f new_telemetry.yml`
+```kubectl apply -f new_telemetry.yml```
+
 [new_telemetry.yml](kubes/new_telemetry.yml)
 
 2. Open dashboard (prometheus)
 
-`kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &`
+```kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &```
 
 Now you can find your metrics at http://localhost:9090
+
+[istio reference documentation](https://istio.io/docs/tasks/telemetry/metrics-logs/)
+
 </p></details>
 
 ## Install and run logging (Fluentd/Elasticsearch/Kibana)
