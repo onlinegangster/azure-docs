@@ -1,6 +1,9 @@
-# azure-docs
+# The Azure Docs
 Constraints and considerations when developing applications on top of the Azure public cloud
 
+
+<details><summary>1. Setting up a new cluster in Azure</summary>
+  <p>
 0. Define your variables (in ~/.bashrc?)
 
 ```
@@ -21,7 +24,12 @@ az aks create --resource-group myResourceGroup --name myAKSCluster --node-count 
 # get and configure credentials for kubectl
 az aks get-credentials --resource-group myResourceGroup --name myAKSCluster
 ```
+</p>
+</details>
 
+<details><summary>Setting up an Azure Container Registry</summary>
+  <p>
+  
 3. Create an **Azure Container Registry (acr)** (name should be unique)
 
 `az acr create --resource-group myResourceGroup --name $ACR_NAME --sku Basic`
@@ -81,6 +89,8 @@ kubectl get deployments
 kubectl get pods
 kubectl get services
 ```
+</p>
+</details>
 
 <details><summary># Installing ISTIO in your AKS Cluster</summary>
 <p>
@@ -99,7 +109,8 @@ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
 </p>
 </details>
 
-## Install the ISTIO demo app
+<details><summary>Install the ISTIO demo app</summary>
+  <p>
 
 [istio bookinfo application](https://istio.io/docs/examples/bookinfo/)
 
@@ -121,8 +132,11 @@ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
 kubectl get services
 kubectl get gateway
 ```
+</p>
+</details>
 
-## Install and run monitoring (Prometheus)
+<details><summary>Install and run monitoring (Prometheus)</summary>
+  <p>
 
 [istio-metric-and-logs](https://istio.io/docs/tasks/telemetry/metrics-logs/)
 
@@ -136,8 +150,10 @@ kubectl get gateway
 `kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &`
 
 Now you can find your metrics at http://localhost:9090
+</p>
 
-## Install and run logging (Fluentd/Elasticsearch/Kibana)
+<details><summary>Install and run logging (Fluentd/Elasticsearch/Kibana)</summary>
+  <p>
 
 ## Install and run distributed tracing (Jaeger/...)
 
@@ -151,8 +167,12 @@ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=ja
 ```
 
 You should now be able to access the jaeger dashboard at http://localhost:16686
+</p>
+</details>
 
-
-
-## Routing
-
+<details><summary>Routing</summary>
+  <p>ToDo
+    
+    
+  </p>
+  </details>
