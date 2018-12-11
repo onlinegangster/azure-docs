@@ -1,6 +1,5 @@
 # The Azure Docs
-Constraints and considerations when developing applications on top of the Azure public cloud
-
+A quickstart for running applications on top of the Azure public cloud
 
 <details><summary>1. Setting up a new cluster in Azure</summary>
   <p>
