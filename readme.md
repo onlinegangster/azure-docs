@@ -1,6 +1,20 @@
 # The Azure Docs
 A quickstart for running applications on top of the Azure public cloud
 
+## Managing your subscriptions
+<details><summary>Expand</summary>
+  <p>
+list currently logged in azure accounts \
+`az account list`
+
+list current accounts, show active account
+`az account list --query '[*].[name,isDefault]' --output table`
+
+[azure login reference](https://docs.microsoft.com/en-us/cli/azure/authenticate-azure-cli?view=azure-cli-latest)
+[azure multiple subscriptions](https://docs.microsoft.com/en-us/cli/azure/manage-azure-subscriptions-azure-cli?view=azure-cli-latest)
+</p>
+</details>
+
 ## Setting up a new cluster in Azure
 <details><summary>Expand</summary>
   <p>
@@ -18,12 +32,28 @@ ACR_NAME=sudeshContainerRegistry
 
 2. Create an AKS cluster (preferrably mod 3 nodecount for quorum, check MS docs for getting the kubernetes versions available)
 
-```
-az aks create --resource-group myResourceGroup --name myAKSCluster --node-count 2 --kubernetes-version 1.10.9 --generate-ssh-keys
+`az aks create --resource-group myResourceGroup --name myAKSCluster --node-count 2 --kubernetes-version 1.10.9 --generate-ssh-keys`
 
 3. get and configure credentials for kubectl
-az aks get-credentials --resource-group myResourceGroup --name myAKSCluster
-```
+`az aks get-credentials --resource-group myResourceGroup --name myAKSCluster`
+
+4. Accessing the kubernetes dashboard
+The default configuration of Kubernetes on Azure has RBAC enabled, therefore running the built in dashboard "as is" will lead to errors such as:
+
+`configmaps is forbidden: User "system:serviceaccount:kube-system:kubernetes-dashboard" cannot list configmaps in the namespace "default"`
+
+To prevent these errors create an **administrator** user and give it access to the kubernetes dashboard (alternatively, one could make use of [Azure Active Directory](https://docs.microsoft.com/en-us/azure/aks/aad-integration).
+
+To use a custom **administrator** account:
+
+`kubectl create clusterrolebinding kubernetes-dashboard -n kube-system --clusterrole=cluster-admin --serviceaccount=kube-system:kubernetes-dashboard`
+
+Now to open the dashboard:
+
+`az aks browse --resource-group myResourceGroup --
+name myAKSCluster`
+
+[azure reference documentation](https://docs.microsoft.com/en-us/azure/aks/kubernetes-dashboard)
 </p>
 </details>
 
@@ -147,12 +177,12 @@ kubectl get gateway
 <p>
 1. Enable metric collection
 
-`kubectl apply -f new_telemetry.yml` \
+`kubectl apply -f new_telemetry.yml`
 [new_telemetry.yml](kubes/new_telemetry.yml)
 
 2. Open dashboard (prometheus)
 
-```kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &```
+`kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090 &`
 
 Now you can find your metrics at http://localhost:9090
 
@@ -163,6 +193,68 @@ Now you can find your metrics at http://localhost:9090
 ## Install and run logging (Fluentd/Elasticsearch/Kibana)
 <details><summary>Expand</summary>
   <p>
+### Introduction
+
+Logging in ISTIO is working as follows:
+
+[your service] --->
+[istio sidecar] --->
+[istio mixer service] --->
+[log collector] --->
+[logging backend] --->
+[dashboard]
+
+All components for logging can be substituted by the tool of your cchoice, istio examples use the [CNCF](https://www.cncf.io/projects/)-stack projects where possible.
+
+For now the recommended setup seems to be:
+
+Log Collector   -> [Fluentd](https://www.fluentd.org/)
+Logging Backend -> [Elasticsearch](https://www.elastic.co/)
+Dashboard       -> [Kibana](https://www.elastic.co/)
+
+### Steps
+
+First we ensure there is a backend which can receive the metrics, so we create the logging backend and dashboard, here we will stick with the recommended defaults, Elasticsearch and Kibana.
+After we setup the collector, namely Fluentd.
+Finally we configure the connection between fluentd and the [istio mixer component](https://istio.io/help/faq/mixer/)
+
+1. Setting up a basic logging infrastructure
+
+`kubectl apply -f logging-stack.yml` \
+[logging-stack.yml](kubes/logging-stack.yml)
+
+2. Confirm all services are running in the cluster
+
+If everything went correctly the following command should display 3 services running inside the **logging** namespace on the kubernetes cluster.
+
+`kubectl get svc -n logging`
+
+* fluentd-es
+* elasticsearch
+* kibana
+
+3. Setup the link between fluentd and the istio-mixer
+
+`kubectl apply -f fluentd-istio.yml` \
+[fluentd-istio.yml](kubes/fluentd-istio.yml)
+
+4. Checking the logs in kibana
+
+In order to check the logs in kibana you need to make sure that after you forward the kibana port for accessing the dashboard, you also create an index in order to actually see the logging data.
+
+Setup port forwarding to http://localhost:5601 for kibana by running:
+
+`kubectl -n logging port-forward $(kubectl -n logging get pod -l app=kibana -o jsonpath='{.items[0].metadata.name}') 5601:5601 &`
+
+To create an index in kibana:
+
+* Open kibana at http://localhost:5601
+* Click "set up index patterns"
+* Use \* as the index pattern
+* Select **@timestamp** as the Time Filter field name and click "Create Index"
+* Click discover and voila!
+
+[istio reference documentation](https://istio.io/docs/tasks/telemetry/fluentd/)
 </p></details>
 
 ## Install and run distributed tracing (Jaeger/...)
