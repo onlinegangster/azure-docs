@@ -127,7 +127,7 @@ kubectl get services
 </p>
 </details>
 
-## Installing ISTIO in your AKS Cluster
+## Install ISTIO in your AKS Cluster
 <details><summary>Expand</summary>
 <p>
 1. Install ISTIO
@@ -269,6 +269,25 @@ To create an index in kibana:
 `kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686 &`
 
 You should now be able to access the jaeger dashboard at http://localhost:16686
+</p>
+</details>
+
+## Deploying a custom application in ISTIO
+<details><summary>Expand</summary>
+<p>
+1. Creating a Deployment
+
+2. Creating a Service Definition
+
+3. Deploying the application
+
+4. Inspection the sidecar insertion
+
+5. Monitoring the application
+
+6. Application Logging
+
+
 </p>
 </details>
 
