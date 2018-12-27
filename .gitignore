@@ -1,1 +1,2 @@
 .env
+kubes/rbac-aad-user.yml

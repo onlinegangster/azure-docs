@@ -10,4 +10,7 @@ roleRef:
 subjects:
 - apiGroup: rbac.authorization.k8s.io
   kind: User
-  name: "ax57ej@ing.onmicrosoft.com"
+  name: "onlinegangster@hotmail.com"
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: "exampleuser@hotmail.com"

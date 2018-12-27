@@ -294,6 +294,49 @@ You should now be able to access the jaeger dashboard at http://localhost:16686
 ## Routing
 <details><summary>Expand</summary>
 <p>ToDo
+Determining the ingress port
+`kubectl get svc istio-ingressgateway -n istio-system` \\
+
+
+[istio ingress port](https://istio.io/docs/tasks/traffic-management/ingress/#determining-the-ingress-ip-and-ports)
+
+[istio traffic routing](https://istio.io/docs/reference/config/istio.networking.v1alpha3/) \\
+[istio ingress traffic management](https://istio.io/docs/tasks/traffic-management/ingress/) \\
+[kubernetes ingress traffic](https://kubernetes.io/docs/concepts/services-networking/ingress/) \\
+[kubernetes external dns](https://github.com/kubernetes-incubator/external-dns) \\
+[dns for azure services](https://docs.microsoft.com/en-us/azure/dns/dns-for-azure-services) \\
+
+
+</p>
+</details>
+
+## DevOps and RBAC
+<details><summary>Expand</summary>
+<p>ToDo
+
+
+### RBAC in Azure Active Directory (AAD)
+
+[kubernetes service principal](https://docs.microsoft.com/en-us/azure/aks/kubernetes-service-principal)
+[non-aad credentials in AAD AKS Clusters](https://github.com/Azure/AKS/issues/600)
+[role binding to service principal](https://github.com/MicrosoftDocs/azure-docs/issues/10495)
+
+
+### RBAC in kubernetes
+
+[kubernetes service accounts](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/)
+
+
+[kubernetes rbac concepts](https://medium.com/containerum/configuring-permissions-in-kubernetes-with-rbac-a456a9717d5d)
+[kubernetes rbac introduction](https://www.cncf.io/blog/2018/08/01/demystifying-rbac-in-kubernetes/)
+[kubernetes rbac](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)
+[kubernetes configure rbac](https://docs.bitnami.com/kubernetes/how-to/configure-rbac-in-your-kubernetes-cluster/)
+[kubernetes configure rbac, rolebindings](https://medium.com/@lestrrat/configuring-rbac-for-your-kubernetes-service-accounts-c348b64eb242)
+
+### RBAC in ISTIO
+
+[istio security](https://istio.io/docs/concepts/security/)
+[istio rbac](https://istio.io/docs/tasks/security/role-based-access-control/)
 
 
 </p>
