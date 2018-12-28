@@ -1,2 +1,4 @@
 .env
 kubes/rbac-aad-user.yml
+kubes/rbac-aad-deploy-user.yml
+

@@ -317,9 +317,10 @@ Determining the ingress port
 
 ### RBAC in Azure Active Directory (AAD)
 
-[kubernetes service principal](https://docs.microsoft.com/en-us/azure/aks/kubernetes-service-principal)
-[non-aad credentials in AAD AKS Clusters](https://github.com/Azure/AKS/issues/600)
-[role binding to service principal](https://github.com/MicrosoftDocs/azure-docs/issues/10495)
+[identities in AKS on Azure](https://docs.microsoft.com/en-us/azure/aks/concepts-identity) \\
+[kubernetes service principal](https://docs.microsoft.com/en-us/azure/aks/kubernetes-service-principal) \\
+[non-aad credentials in AAD AKS Clusters](https://github.com/Azure/AKS/issues/600) \\
+[role binding to service principal](https://github.com/MicrosoftDocs/azure-docs/issues/10495) \\
 
 
 ### RBAC in kubernetes
